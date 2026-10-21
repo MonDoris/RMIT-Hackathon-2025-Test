@@ -1,5 +1,6 @@
 # ScamBaiter - Kẻ Đi Săn Bóng Ma Số (The Reverse Hacker)
-**Đội thi:** [Tên đội của bạn] | **Hackathon:** RMIT GenAI & Cybersecurity Hackathon 2025 (Challenge 3)
+**Đội thi:** Code Cơm
+| **Hackathon:** RMIT GenAI & Cybersecurity Hackathon 2025 (Challenge 3)
 
 ## Giới thiệu
 ScamBaiter là một tựa game web 2D mang đậm tính giáo dục và an ninh mạng. Thay vì dạy người chơi cách phòng thủ bị động (chặn tin nhắn lừa đảo), game cho phép người chơi trải nghiệm cảm giác làm một "Hacker mũ trắng", sử dụng kỹ thuật **Reverse Social Engineering** để giăng bẫy ngược lại tổ chức lừa đảo.
