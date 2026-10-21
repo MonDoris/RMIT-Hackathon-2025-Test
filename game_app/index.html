@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScamBaiter v3.0 - CyberShield SOC</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Hiệu ứng phủ màn hình CRT & Báo động đỏ -->
+    <div class="crt-lines"></div>
+    <div id="alarm-overlay" class="hidden"></div>
+
+    <div id="app">
+        <!-- THANH TRẠNG THÁI HỆ THỐNG (TOP HUD) -->
+        <header class="hud-bar">
+            <div class="hud-left">
+                <span class="status-dot"></span>
+                <strong>VN-CERT // CYBERSHIELD OS v3.0</strong>
+                <span class="hud-badge" id="active-case-badge">CHỜ NHIỆM VỤ</span>
+            </div>
+            <div class="hud-center">
+                <div class="hud-metric">
+                    <span>ĐỘ AN TOÀN HỆ THỐNG (INTEGRITY)</span>
+                    <div class="mini-bar"><div id="hp-bar" class="mini-fill green" style="width: 100%;"></div></div>
+                </div>
+                <div class="hud-metric">
+                    <span>TIẾN ĐỘ ĐỊNH VỊ TỘI PHẠM (TRACE)</span>
+                    <div class="mini-bar"><div id="trace-bar" class="mini-fill cyan" style="width: 0%;"></div></div>
+                </div>
+            </div>
+            <div class="hud-right">
+                <div id="global-timer" class="timer-pill hidden">🚨 30s</div>
+                <button id="sfx-toggle" class="icon-btn" title="Bật/Tắt Âm thanh">🔊 SFX: ON</button>
+                <button id="abort-btn" class="icon-btn danger-btn hidden">Thoát Vụ Án</button>
+            </div>
+        </header>
+
+        <!-- MÀN HÌNH 1: MENU & CHỌN VỤ ÁN (MISSION CONTROL) -->
+        <section id="menu-screen" class="screen active">
+            <div class="hero-box">
+                <p class="cyber-tag">[ RMIT HACKATHON 2025 - PLAY TO IMPACT ]</p>
+                <h1 class="glitch-title" data-text="SCAMBAITER: OVERRIDE">SCAMBAITER: OVERRIDE</h1>
+                <p class="hero-desc">
+                    Mỗi năm hàng nghìn tỷ đồng của người dân và người cao tuổi bị đánh cắp bởi các tổ chức tội phạm xuyên biên giới. 
+                    Trong vai <strong>Đặc vụ An ninh mạng (White-Hat Scambaiter)</strong>, bạn sẽ không chỉ chặn số — bạn sẽ đóng kịch, thao túng tâm lý ngược và truy vết tận gốc sào huyệt của chúng!
+                </p>
+            </div>
+
+            <div class="case-grid">
+                <!-- Case 1 -->
+                <div class="case-card" onclick="selectCase(0)">
+                    <div class="case-header">
+                        <span class="case-id">HỒ SƠ #01</span>
+                        <span class="difficulty diff-med">Độ khó: Trung bình</span>
+                    </div>
+                    <h3>👮 Giả Danh Công An & Bẫy APK</h3>
+                    <p>Kẻ lừa đảo mạo danh Đại úy CSĐT dọa khóa tài khoản bà ngoại bạn, ép cài ứng dụng VNeID giả chứa mã độc chiếm quyền điều khiển.</p>
+                    <div class="case-meta">
+                        <span>🎯 Kỹ năng: Reverse OSINT & Malware Defense</span>
+                    </div>
+                    <button class="cyber-btn full-w">NHẬN CHUYÊN ÁN #01</button>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="case-card" onclick="selectCase(1)">
+                    <div class="case-header">
+                        <span class="case-id">HỒ SƠ #02</span>
+                        <span class="difficulty diff-hard">Độ khó: Cao</span>
+                    </div>
+                    <h3>🎭 Bóng Ma AI Deepfake Cấp Cứu</h3>
+                    <p>Cuộc gọi video giả khuôn mặt và giọng nói người thân báo tin tai nạn giao thông nghiêm trọng, ép chuyển 80 triệu đồng trong 3 phút.</p>
+                    <div class="case-meta">
+                        <span>🎯 Kỹ năng: Deepfake Biometric Scan & Phong tỏa TK</span>
+                    </div>
+                    <button class="cyber-btn full-w">NHẬN CHUYÊN ÁN #02</button>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="case-card" onclick="selectCase(2)">
+                    <div class="case-header">
+                        <span class="case-id">HỒ SƠ #03</span>
+                        <span class="difficulty diff-extreme">Độ khó: Cực đại</span>
+                    </div>
+                    <h3>💎 Bẫy Việc Nhẹ Lương Cao & Crypto</h3>
+                    <p>Đường dây lừa đảo "chốt đơn hoàn tiền" kết hợp sàn USDT ảo. Tương kế tựu kế lấy tiền mồi của chúng và đánh sập ví lạnh trùm cuối.</p>
+                    <div class="case-meta">
+                        <span>🎯 Kỹ năng: Honeypot Smart Contract & Giải mã Hex</span>
+                    </div>
+                    <button class="cyber-btn full-w">NHẬN CHUYÊN ÁN #03</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- MÀN HÌNH 2: KHÔNG GIAN TÁC CHIẾN 3 PHÂN VÙNG (PLAY SCREEN) -->
+        <section id="play-screen" class="screen hidden">
+            <div class="soc-grid">
+                
+                <!-- CỘT 1: GIẢ LẬP ĐIỆN THOẠI CHAT -->
+                <div class="panel phone-panel">
+                    <div class="phone-notch"></div>
+                    <div class="chat-header">
+                        <div class="scam-profile">
+                            <div class="avatar-box" id="scam-avatar">👮</div>
+                            <div>
+                                <strong id="scam-name">Đại Úy Trần Hoàng (CSĐT)</strong>
+                                <span class="online-status" id="scam-status">● Đang trực tuyến - Zalo Bảo Mật</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Thanh đo tâm lý tội phạm -->
+                    <div class="psych-bars">
+                        <div class="psych-item">
+                            <span>🤑 Lòng tham mục tiêu: <b id="greed-val">10%</b></span>
+                            <div class="p-bar"><div id="greed-fill" class="p-fill gold" style="width: 10%;"></div></div>
+                        </div>
+                        <div class="psych-item">
+                            <span>👁️ Độ cảnh giác: <b id="suspicion-val">15%</b></span>
+                            <div class="p-bar"><div id="suspicion-fill" class="p-fill red" style="width: 15%;"></div></div>
+                        </div>
+                    </div>
+
+                    <!-- Khung Video Deepfake (ẩn mặc định) -->
+                    <div id="video-call-box" class="video-call-overlay hidden">
+                        <div class="glitch-video">
+                            <span class="rec-badge">● LIVE DEEPFAKE STREAM (TÍN HIỆU YẾU)</span>
+                            <div class="fake-face" id="fake-face-icon">😰</div>
+                            <p id="video-caption">"Alo... cứu con với... chuyển tiền gấp..."</p>
+                        </div>
+                    </div>
+
+                    <!-- Nội dung tin nhắn -->
+                    <div class="chat-box" id="chat-box"></div>
+                    <div id="typing-indicator" class="typing hidden">Đối tượng đang soạn tin<span>.</span><span>.</span><span>.</span></div>
+
+                    <!-- Hộp lựa chọn câu trả lời -->
+                    <div class="choices-box" id="choices-box"></div>
+                </div>
+
+                <!-- CỘT 2: BẢN ĐỒ RADAR MẠNG & HỒ SƠ TANG VẬT -->
+                <div class="panel intel-panel">
+                    <div class="panel-title">🌐 RADAR ĐỊNH VỊ ĐƯỜNG TRUYỀN (LIVE TRACE)</div>
+                    <div class="radar-box">
+                        <svg viewBox="0 0 400 170" class="network-svg">
+                            <!-- Đường nối các Node -->
+                            <line x1="50" y1="85" x2="150" y2="40" class="net-line" id="line-1" />
+                            <line x1="150" y1="40" x2="250" y2="130" class="net-line" id="line-2" />
+                            <line x1="250" y1="130" x2="350" y2="85" class="net-line" id="line-3" />
+                            
+                            <!-- Các Node mạng -->
+                            <circle cx="50" cy="85" r="10" class="net-node active-node" />
+                            <text x="25" y="115" class="node-label">VN-CERT (Bạn)</text>
+
+                            <circle cx="150" cy="40" r="9" class="net-node" id="node-1" />
+                            <text x="115" y="22" class="node-label" id="label-1">Proxy #1: ???</text>
+
+                            <circle cx="250" cy="130" r="9" class="net-node" id="node-2" />
+                            <text x="210" y="158" class="node-label" id="label-2">VPN C2: ???</text>
+
+                            <circle cx="350" cy="85" r="12" class="net-node target-node" id="node-3" />
+                            <text x="305" y="115" class="node-label" id="label-3">Sào Huyệt: ẨN</text>
+                        </svg>
+                    </div>
+
+                    <div class="panel-title">📁 HỒ SƠ TANG VẬT THU THẬP (EVIDENCE DOSSIER)</div>
+                    <div class="evidence-grid" id="evidence-grid">
+                        <div class="ev-card locked" id="ev-ip">
+                            <span class="ev-icon">🌐</span>
+                            <div>
+                                <small>ĐỊA CHỈ IP THẬT</small>
+                                <strong id="ev-ip-val">Chưa giải mã</strong>
+                            </div>
+                        </div>
+                        <div class="ev-card locked" id="ev-device">
+                            <span class="ev-icon">💻</span>
+                            <div>
+                                <small>THIẾT BỊ & HỆ ĐIỀU HÀNH</small>
+                                <strong id="ev-device-val">Chưa xác định</strong>
+                            </div>
+                        </div>
+                        <div class="ev-card locked" id="ev-bank">
+                            <span class="ev-icon">🏦</span>
+                            <div>
+                                <small>TÀI KHOẢN RỬA TIỀN (MULE)</small>
+                                <strong id="ev-bank-val">Chưa trích xuất</strong>
+                            </div>
+                        </div>
+                        <div class="ev-card locked" id="ev-loc">
+                            <span class="ev-icon">📍</span>
+                            <div>
+                                <small>TỌA ĐỘ SÀO HUYỆT</small>
+                                <strong id="ev-loc-val">Đang ẩn danh</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mẹo An ninh mạng theo ngữ cảnh -->
+                    <div class="cyber-tip-box">
+                        <strong>💡 Góc nhìn Chuyên gia An ninh mạng:</strong>
+                        <p id="cyber-tip-text">Tội phạm mạng thường dùng chiêu bài "khẩn cấp" và "đe dọa pháp lý" để nạn nhân hoảng loạn, không kịp kiểm chứng thông tin với người thân.</p>
+                    </div>
+                </div>
+
+                <!-- CỘT 3: KALI TERMINAL & BẢNG LỆNH NHANH CYBERDECK -->
+                <div class="panel terminal-panel">
+                    <div class="panel-title">💻 KALI LINUX // ROOT TERMINAL</div>
+                    <div class="terminal-body" id="terminal-body"></div>
+
+                    <!-- Bảng nút bấm lệnh nhanh (CyberDeck) -->
+                    <div class="cyberdeck">
+                        <span class="deck-label">⚡ CÔNG CỤ TÁC CHIẾN NHANH (CLICK HOẶC GÕ LỆNH):</span>
+                        <div class="deck-buttons" id="deck-buttons"></div>
+                    </div>
+
+                    <!-- Ô nhập lệnh trực tiếp -->
+                    <div class="terminal-input-bar">
+                        <span class="prompt-sign">root@vncert:~#</span>
+                        <input type="text" id="cmd-input" autocomplete="off" placeholder="Nhập lệnh (hoặc bấm nút phía trên)...">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- LỚP PHỦ MINIGAME TRUY BẮT / PHÒNG THỦ KHẨN CẤP -->
+            <div id="minigame-modal" class="minigame-overlay hidden">
+                <div class="minigame-box">
+                    <h2 id="mg-title">🚨 CẢNH BÁO XÂM NHẬP!</h2>
+                    <p id="mg-desc">Click tiêu diệt toàn bộ gói tin độc hại trước khi hết giờ!</p>
+                    <div id="mg-arena" class="mg-arena"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MÀN HÌNH 3: KẾT QUẢ & BÁO CÁO TÁC ĐỘNG XÃ HỘI (RESULTS) -->
+        <section id="result-screen" class="screen hidden">
+            <div class="result-card">
+                <div class="stamp-badge" id="result-stamp">CASE CLOSED</div>
+                <h1 id="result-title">CHUYÊN ÁN THÀNH CÔNG!</h1>
+                <p id="result-subtitle" class="result-sub"></p>
+
+                <div class="forensic-summary" id="forensic-summary"></div>
+
+                <div class="impact-callout">
+                    <h3>🛡️ THÔNG ĐIỆP AN TOÀN KHÔNG GIAN MẠNG (SOCIAL IMPACT)</h3>
+                    <p id="impact-lesson"></p>
+                </div>
+
+                <div class="result-actions">
+                    <button id="next-case-btn" class="cyber-btn">CHỌN CHUYÊN ÁN KHÁC</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
